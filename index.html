@@ -11,6 +11,8 @@
       height: 100vh;
       overflow: hidden;
       position: relative;
+      margin: 0;
+      padding: 0;
     }
 
     img {
@@ -22,6 +24,13 @@
     h1 {
       color: #d6336c;
       margin: 20px 0;
+    }
+
+    p {
+      color: #b03060;
+      font-size: 20px;
+      margin: 10px 30px;
+      line-height: 1.6;
     }
 
     button {
@@ -37,23 +46,74 @@
       background-color: #ff4d6d;
       color: white;
       left: 45%;
-      top: 65%;
+      top: 80%;
     }
 
     #no {
       background-color: #adb5bd;
       color: white;
       left: 55%;
-      top: 65%;
+      top: 80%;
+    }
+
+    /* Floating hearts style */
+    .heart {
+      position: absolute;
+      color: #ff4d6d;
+      font-size: 24px;
+      animation: floatUp 3s linear forwards;
+      pointer-events: none;
+    }
+
+    @keyframes floatUp {
+      0% {
+        transform: translateY(0) scale(1);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-200px) scale(1.5);
+        opacity: 0;
+      }
+    }
+
+    .message {
+      color: #ffffff;
+      font-size: 28px;
+      margin-top: 50px;
+      text-shadow: 2px 2px 6px #000;
+    }
+
+    /* Fullscreen background for Yes */
+    .full-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('valentine.jpg');
+      background-size: cover;
+      background-position: center;
+      z-index: -1;
     }
   </style>
 </head>
-
 <body>
 
   <img src="valentine.jpg" alt="Valentine Image">
 
   <h1>Will you be my Valentine? 💘</h1>
+
+  <p>
+    Arz kiya hai…<br><br>
+    Adhura tha main,<br>
+    Tere aane se poora hua hoon.<br><br>
+    Guzar gayi umr yun hi,<br>
+    Ab jaake ishq ka matlab samjha hoon.<br><br>
+    Kamra tha jo,<br>
+    Tere aane se ghar ban gaya hai.<br><br>
+    Bus kat rahi thi zindagi,<br>
+    Tere aane se jee raha hoon....
+  </p>
 
   <button id="yes" onclick="yesClicked()">Yes ❤️</button>
   <button id="no">No 🙈</button>
@@ -61,6 +121,7 @@
   <script>
     const noBtn = document.getElementById("no");
 
+    // Make No button dodge the cursor
     noBtn.addEventListener("mouseover", () => {
       const x = Math.random() * (window.innerWidth - 120);
       const y = Math.random() * (window.innerHeight - 80);
@@ -69,7 +130,27 @@
     });
 
     function yesClicked() {
-      document.body.innerHTML = "<h1>YAYYY 💖🥰 I knew it!!</h1>";
+      // Clear body content
+      document.body.innerHTML = `
+        <div class="full-bg"></div>
+        <div class="message">YAYYY 💖🥰 I knew it!!</div>
+        <div class="message">Happy Valentine’s Day! 🌹</div>
+      `;
+
+      // Floating hearts continuously
+      setInterval(() => {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.innerText = "❤️";
+        heart.style.left = Math.random() * window.innerWidth + "px";
+        heart.style.fontSize = (20 + Math.random() * 30) + "px";
+        document.body.appendChild(heart);
+
+        // Remove heart after animation
+        setTimeout(() => {
+          heart.remove();
+        }, 3000);
+      }, 300);
     }
   </script>
 
